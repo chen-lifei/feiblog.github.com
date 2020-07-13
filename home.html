@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEI's BLOG</title>
+    <script src="./js/vue.js"></script>
+    <script src="./js/vue-router.js"></script>
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/froala_editor.min.css">
+    <link rel="stylesheet" href="./css/iconfont.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/jquery-1.11.1.min.js"></script>
+    <!-- <script src="./js/jquery-3.5.1.min.js"></script> -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/calendar.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div class="navigation">
+            <div class="navBx">
+                <div class="logo"><img src="./images/logo.png" alt=""></div>
+                <div class="name">FEI's BLOG</div>
+                <input type="search" class="search" placeholder="Search...">
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <router-link to="/home">
+                            <a class="nav-link active">
+                                首页
+                            </a>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/edit-blog" @click.native="flushCom()">
+                            <a class="nav-link">
+                                编辑博客
+                            </a>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link to="/gallery">
+                            <a class="nav-link">博客长廊</a>
+                        </router-link>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">关于</a>
+                    </li>
+                    <li class="nav-item login dropdown">
+                        <!-- <a class="nav-link" href="#">
+                            <img src="./images/avator.jpg" alt="">
+                        </a> -->
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                            aria-haspopup="true" aria-expanded="false">
+                            <img src="./images/avator.jpg" alt="">
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">设置</a>
+                            <a class="dropdown-item" href="#">退出登录</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <!-- 主体部分 -->
+                        <router-view></router-view>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="latest">
+                            <div class="title">Latest Posts</div>
+                            <div class="postList" v-for="item in articleList">
+                                <router-link to="/content">
+                                    <div class="img">
+                                        <img :src=item.img alt="Image">
+                                    </div>
+                                </router-link>
+                                <div class="info">
+                                    <router-link to="/content">
+                                        <div class="name">{{item.name}}</div>
+                                    </router-link>
+                                    <div class="time-author">{{time}} By:{{item.author}}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery">
+                            <div class="title">Image Gallery</div>
+                            <div class="imgList">
+                                <div class="img" v-for="item in imgList">
+                                    <img :src=item alt="Image">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="calendar">
+                            <div class="dateNav">
+                                <div class="pre">&lt;</div>
+                                <div class="date"></div>
+                                <div class="back">&gt;</div>
+                            </div>
+                            <ul class="week">
+                                <li>日</li>
+                                <li>一</li>
+                                <li>二</li>
+                                <li>三</li>
+                                <li>四</li>
+                                <li>五</li>
+                                <li>六</li>
+                            </ul>
+                            <ul class="day"></ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3">
+                        <h4>社区</h4>
+                        <ul>
+                            <li><a href="#">专栏博客</a></li>
+                            <li><a href="#">浏览博客</a></li>
+                            <li><a href="#">技术快讯</a></li>
+                            <li><a href="#">团队主页</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>社区</h4>
+                        <ul>
+                            <li><a href="#">专栏博客</a></li>
+                            <li><a href="#">浏览博客</a></li>
+                            <li><a href="#">技术快讯</a></li>
+                            <li><a href="#">团队主页</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>社区</h4>
+                        <ul>
+                            <li><a href="#">专栏博客</a></li>
+                            <li><a href="#">浏览博客</a></li>
+                            <li><a href="#">技术快讯</a></li>
+                            <li><a href="#">团队主页</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3">
+                        <h4>关于</h4>
+                        <ul>
+                            <li><a href="#">免责声明</a></li>
+                            <li><a href="#">联系我们</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="cr">Copyright © 2020 Fei Fei. All rights reserved.</div>
+        </footer>
+    </div>
+
+    <!-- 主体部分的全局组件 -->
+    <template id="main">
+        <div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-6">
+                        <article v-for="item in articleList1">
+                            <div class="img">
+                                <img :src=item.img alt="Image">
+                            </div>
+                            <router-link to="/content">
+                                <h4>{{item.name}}</h4>
+                            </router-link>
+                            <div class="content">{{item.content}}</div>
+                            <div class="info">
+                                <div class="time">{{time}}</div>
+                                <div class="author">Author：<span>{{item.author}}</span></div>
+                            </div>
+                            <div class="operation">
+                                <router-link to="/content">
+                                    <button type="button" class="read btn btn-outline-primary">阅读详情</button>
+                                </router-link>
+                                <button type="button" class="delete btn btn-secondary">删除</button>
+                            </div>
+                        </article>
+                    </div>
+                    <div class="col-md-6">
+                        <article v-for="item in articleList2">
+                            <div class="img">
+                                <img :src=item.img alt="Image">
+                            </div>
+                            <h4>{{item.name}}</h4>
+                            <div class="content">{{item.content}}</div>
+                            <div class="info">
+                                <div class="time">{{time}}</div>
+                                <div class="author">Author：<span>{{item.author}}</span></div>
+                            </div>
+                            <div class="operation">
+                                <button type="button" class="read btn btn-outline-primary">阅读详情</button>
+                                <button type="button" class="delete btn btn-secondary">删除</button>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </template>
+
+    <!-- 编辑博客页面的组件 -->
+    <template id="myedit">
+        <div>
+            <form>
+                <div class="form-group row">
+                    <label for="inputTitle" class="col-md-2 col-form-label">标题：</label>
+                    <div class="col-md-10">
+                        <input type="text" class="form-control" id="inputTitle">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="selectCover" class="col-md-2 col-form-label">封面图片：</label>
+                    <div class="col-md-10">
+                        <input type="file" class="form-control-file" id="selectCover" v-on:change="uploadFile()">
+                    </div>
+                </div>
+                <img src="" alt="" class="preview" id="preview">
+                <div id="editor">
+                    <div id='edit'>
+                        <p>请输入博客内容，上方可以随意修改字体颜色、大小等样式！</p>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" id="submit">发布博客</button>
+            </form>
+
+        </div>
+    </template>
+
+    <!-- 博客页面详情的组件 -->
+    <template id="passage">
+        <div>
+            <div class="article">
+                <div class="img">
+                    <img src="./images/4.jpg" alt />
+                </div>
+                <h3 class="title">春</h3>
+                <div class="details">
+                    盼望着，盼望着，东风来了，春天的脚步近了。
+                    <br />一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。
+                    <br />小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。
+                    <br />桃树、杏树、梨树，你不让我，我不让你，都开满了花赶趟儿。红的像火，粉的像霞，白的像雪。花里带着甜味儿；闭了眼，树上仿佛已经满是桃儿、杏儿、梨儿。花下成千成百的蜜蜂嗡嗡地闹着，大小的蝴蝶飞来飞去。野花遍地是：杂样儿，有名字的，没名字的，散在草丛里，像眼睛，像星星，还眨呀眨的。
+                    <br />“吹面不寒杨柳风”，不错的，像母亲的手抚摸着你。风里带来些新翻的泥土的气息，混着青草味儿，还有各种花的香，都在微微润湿的空气里酝酿。鸟儿将窠巢安在繁花嫩叶当中，高兴起来了，呼朋引伴地卖弄清脆的喉咙，唱出宛转的曲子，与轻风流水应和着。牛背上牧童的短笛，这时候也成天嘹亮地响着。
+                </div>
+                <div class="time">2020-06-13</div>
+            </div>
+            <div class="toggle">
+                <div class="pre"></div>
+                <div class="next"></div>
+            </div>
+        </div>
+    </template>
+
+    <!-- 博客长廊组件 -->
+    <template id="gallery">
+        <div>
+            <div class="blogGallery">
+                <div class="imgBx" v-for="item in articleList">
+                    <img :src=item.img alt="Img" />
+                    <div class="mask"></div>
+                    <div class="passage">
+                        {{ item.content }}
+                        <span>By:{{ item.author }}</span>
+                    </div>
+                    <router-link to="/content">
+                        <div class="link"></div>
+                    </router-link>
+                    <div class="favor"></div>
+                </div>
+            </div>
+            <div class="pagination">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        // 注册主体部分的组件
+        var home = Vue.component('myHome', {
+            template: "#main",
+            data() {
+                return {
+                    time: '',
+                    articleList1: [
+                        {
+                            img: "./images/4.jpg", name: "春", content: "盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。", time: '', author: "朱自清"
+                        },
+                        { img: "./images/2.jpg", name: "海燕", content: "在苍茫的大海上，狂风卷集着乌云。在乌云和大海之间，海燕像黑色的闪电，在高傲地飞翔。一会儿翅膀碰着波浪，一会儿箭一般地直冲向乌云，它叫喊着，──就在这鸟儿勇敢的叫喊声里，乌云听出了欢乐。在这叫喊声里──充满着对暴风雨的渴望！在这叫喊声里，乌云听出了愤怒的力量、热情的火焰和胜利的信心。", time: '', author: "高尔基" },
+                    ],
+                    articleList2: [
+                        { img: "./images/3.jpg", name: "徜徉在一片花海里", content: "静止了，所有的花开遥远了、清晰了。爱天郁闷，爱却很喜欢，那时候我不懂这叫爱。你喜欢站在那窗台，你好久，都没再来，彩色的时间染上空白。", time: '', author: "Sivan" },
+                    ],
+                }
+            },
+            mounted() {
+                this.getDate();
+            },
+            methods: {
+                getDate() {
+                    var date = new Date();
+                    var y = date.getFullYear();
+                    var m = (date.getMonth() + 1).toString().padStart(2, 0);
+                    var d = date.getDate().toString().padStart(2, 0);
+                    this.time = y + '-' + m + '-' + d;
+                },
+            },
+        })
+
+        // 注册编辑博客的组件
+        var edit = Vue.component('myEdit', {
+            template: "#myedit",
+            methods: {
+                uploadFile() {
+                    var that = this;
+                    const file = document.getElementById('selectCover');
+                    const fileObj = file.files[0];
+                    const windowURL = window.URL || window.webkitURL;
+                    const img = document.getElementById('preview');
+                    if (file && fileObj) {
+                        const dataURl = windowURL.createObjectURL(fileObj);
+                        img.setAttribute('src', dataURl);
+                        img.style.height = "210px";
+                        img.style.width = "320px";
+                    };
+                }
+            }
+        })
+
+        var content = Vue.component('passage', {
+            template: "#passage",
+        })
+
+        var gallery = Vue.component('gallery', {
+            template: "#gallery",
+            data() {
+                return {
+                    articleList: [
+                        {
+                            img: "./images/4.jpg", name: "春", content: "盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。", time: '', author: "朱自清"
+                        },
+                        { img: "./images/2.jpg", name: "海燕", content: "在苍茫的大海上，狂风卷集着乌云。在乌云和大海之间，海燕像黑色的闪电，在高傲地飞翔。一会儿翅膀碰着波浪，一会儿箭一般地直冲向乌云，它叫喊着，──就在这鸟儿勇敢的叫喊声里，乌云听出了欢乐。", time: '', author: "高尔基" },
+                        { img: "./images/3.jpg", name: "徜徉在一片花海里", content: "静止了，所有的花开遥远了、清晰了。爱天郁闷，爱却很喜欢，那时候我不懂这叫爱。你喜欢站在那窗台，你好久，都没再来，彩色的时间染上空白。", time: '', author: "Sivan" },
+                        { img: "./images/1.jpg", name: "徜徉在一片花海里", content: "在苍茫的大海上，狂风卷集着乌云。在乌云和大海之间，海燕像黑色的闪电，在高傲地飞翔。", time: '', author: "Sivan" },
+                        { img: "./images/5.jpg", name: "徜徉在一片花海里", content: "静止了，所有的花开遥远了、清晰了。爱天郁闷，爱却很喜欢，那时候我不懂这叫爱。", time: '', author: "Sivan" },
+                    ],
+                }
+            }
+        })
+
+        var router = new VueRouter({
+            routes: [
+                { path: '/', redirect: '/home' },
+                { path: '/home', component: home },
+                { path: '/edit-blog', component: edit },
+                { path: '/content', component: content },
+                { path: '/gallery', component: gallery },
+            ]
+        })
+
+
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                time: '',
+                articleList: [
+                    {
+                        img: "./images/4.jpg", name: "春", content: "盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。", time: '', author: "朱自清"
+                    },
+                    { img: "./images/2.jpg", name: "海燕", content: "在苍茫的大海上，狂风卷集着乌云。在乌云和大海之间，海燕像黑色的闪电，在高傲地飞翔。一会儿翅膀碰着波浪，一会儿箭一般地直冲向乌云，它叫喊着，──就在这鸟儿勇敢的叫喊声里，乌云听出了欢乐。在这叫喊声里──充满着对暴风雨的渴望！在这叫喊声里，乌云听出了愤怒的力量、热情的火焰和胜利的信心。", time: '', author: "高尔基" },
+                    { img: "./images/3.jpg", name: "徜徉在一片花海里", content: "静止了，所有的花开遥远了、清晰了。爱天郁闷，爱却很喜欢，那时候我不懂这叫爱。你喜欢站在那窗台，你好久，都没再来，彩色的时间染上空白。", time: '', author: "Sivan" },
+                ],
+                imgList: ["./images/1.jpg", "./images/2.jpg", "./images/3.jpg", "./images/4.jpg", "./images/5.jpg"]
+            },
+            mounted() {
+                this.getDate();
+            },
+            methods: {
+                getDate() {
+                    var date = new Date();
+                    var y = date.getFullYear();
+                    var m = (date.getMonth() + 1).toString().padStart(2, 0);
+                    var d = date.getDate().toString().padStart(2, 0);
+                    this.time = y + '-' + m + '-' + d;
+                },
+                flushCom() {
+                    this.$router.go(0);
+                }
+            },
+            router
+        })
+    </script>
+
+    <script src="./js/froala_editor.min.js"></script>
+    <script src="./js/plugins/tables.min.js"></script>
+    <script src="./js/plugins/lists.min.js"></script>
+    <script src="./js/plugins/colors.min.js"></script>
+    <script src="./js/plugins/font_family.min.js"></script>
+    <script src="./js/plugins/font_size.min.js"></script>
+    <script src="./js/plugins/block_styles.min.js"></script>
+    <script src="./js/plugins/media_manager.min.js"></script>
+    <script src="./js/plugins/video.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#edit').editable({
+                inlineMode: false,
+                buttons: ['bold', 'italic', 'underline', 'strikeThrough', 'fontSize', 'color', 'sep', 'formatBlock', 'blockStyle', 'align', 'insertOrderedList', 'insertUnorderedList', 'outdent', 'indent', 'sep', 'createLink', 'insertImage', 'insertVideo', 'undo', 'redo', 'inserthorizontalrule'],
+                blockStyles: {
+                    'p': {
+                        'class1': 'Class1',
+                        'class2': 'Class2'
+                    }
+                }
+            })
+        });
+    </script>
+</body>
+
+</html>
